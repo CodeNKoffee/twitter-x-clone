@@ -16,15 +16,7 @@ import TwitterLogo from "@/public/assets/twitter-logo.png";
 export default function Sidebar() {
   return (
     <div className="fixed hidden md:flex flex-col">
-      <div className="py-3">
-        <Image 
-          src={TwitterLogo}
-          alt="White Twitter Logo"
-          width={34}
-          height={34}
-        />
-      </div>
-      <nav>
+      <nav className="xl:space-y-1.5">
         {/* {sidebarLinks.map((sidebarLink, index) => (
           <SidebarLink
             key={index}
@@ -32,6 +24,14 @@ export default function Sidebar() {
             Icon={sidebarLink.Icon}
           />
         )} */}
+        <div className="py-3 xl:p-3 flex xl:justify-start justify-center items-center">
+          <Image 
+            src={TwitterLogo}
+            alt="White Twitter Logo"
+            width={34}
+            height={34}
+          />
+        </div>
         <SidebarLink text="Home" Icon={HomeIcon} />
         <SidebarLink text="Explore" Icon={HashtagIcon} />
         <SidebarLink text="Notifications" Icon={BellIcon} />
@@ -49,7 +49,7 @@ export default function Sidebar() {
 
 function SidebarLink({ text, Icon }: SidebarLinkProps) {
   return (
-    <li className="text-xl mb-6 flex items-center space-x-3">
+    <li className="hover__animation text-xl mb-6 flex xl:justify-start justify-center items-center space-x-3">
       <Icon className="h-7" />
       <span className="hidden xl:inline">{text}</span>
     </li>
