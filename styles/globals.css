@@ -5,3 +5,7 @@
 .hover__animation {
   @apply hover:cursor-pointer hover:bg-white hover:bg-opacity-15 xl:p-3 rounded-full h-11 w-11 xl:h-auto;
 }
+
+.icons__animation {
+  @apply cursor-pointer hover:bg-[#1D9BF0] hover:bg-opacity-15 rounded-full w-9 h-9 flex justify-center items-center;
+}
