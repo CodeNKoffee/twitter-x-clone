@@ -27,7 +27,8 @@ export function TweetHeader() {
           <span>
             @kyliejenner
           </span>
-          <span className="w-1 h-1 bg-gray-500 rounded-full">
+          <div className="w-1 h-1 bg-gray-500 rounded-full"></div>
+          <span>
             2 hours ago
           </span>
         </div>
