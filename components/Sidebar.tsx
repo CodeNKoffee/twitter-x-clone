@@ -15,8 +15,8 @@ import TwitterLogo from "@/public/assets/twitter-logo.png";
 
 export default function Sidebar() {
   return (
-    <div className="fixed hidden md:flex flex-col">
-      <nav className="xl:space-y-1.5">
+    <div className="fixed hidden h-full md:flex flex-col">
+      <nav className="h-full marker:xl:space-y-1.5">
         {/* {sidebarLinks.map((sidebarLink, index) => (
           <SidebarLink
             key={index}
@@ -39,10 +39,13 @@ export default function Sidebar() {
         <SidebarLink text="Bookmarks" Icon={BookmarkIcon} />
         <SidebarLink text="Profile" Icon={UserIcon} />
         <SidebarLink text="More" Icon={DotsCircleHorizontalIcon} />
+        <button className="hidden xl:inline bg-[#1D9BF0] rounded-full h-[52px] mt-2 w-[200px] text-lg font-bold">
+          Tweet 
+        </button>
+        <div className="absolute bottom-0">
+          User
+        </div>
       </nav>
-      <div>
-        User
-      </div>
     </div>
   )
 };
