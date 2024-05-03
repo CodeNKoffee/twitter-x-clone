@@ -9,6 +9,7 @@ import {
   BellIcon, 
   InboxIcon,
   DotsCircleHorizontalIcon,
+  DotsHorizontalIcon,
 } from "@heroicons/react/outline";
 import Image from "next/image";
 import TwitterLogo from "@/public/assets/twitter-logo.png";
@@ -42,8 +43,17 @@ export default function Sidebar() {
         <button className="hidden xl:inline bg-[#1D9BF0] rounded-full h-[52px] mt-2 w-[200px] text-lg font-bold">
           Tweet 
         </button>
-        <div className="absolute bottom-0">
-          User
+        <div className="absolute bottom-0 hover:bg-white hover:bg-opacity-10 flex justify-center items-center p-3 sapce-x-3 rounded-full cursor-pointer">
+          <img 
+            src="/assets/pfp.png" 
+            alt="Elon" 
+            className="rounded-full w-10 h-10 object-cover"
+          />
+          <div className="hidden xl:inline">
+            <h1 className="font-bold whitespace-nowrap">name</h1>
+            <h1 className="text-gray-500">@username</h1>
+          </div>
+          <DotsHorizontalIcon className="h-5" />
         </div>
       </nav>
     </div>
