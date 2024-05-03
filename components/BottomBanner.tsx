@@ -1,3 +1,4 @@
+import Login from "./modals/Login";
 import SignUp from "./modals/SignUp";
 
 export default function BottomBanner() {
@@ -8,9 +9,7 @@ export default function BottomBanner() {
         <span className="text-[18px] font-normal">People on Twitter are the first to know</span>
       </div>
       <div className="flex space-x-3 items-center">
-        <button className="border border-white rounded-full w-[160px] h-[40px] bg-transparent text-white hover:bg-[#CBD2D7]">
-          Log In
-        </button>
+        <Login />
         <SignUp />
       </div>
     </div>
