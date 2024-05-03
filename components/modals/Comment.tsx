@@ -1,5 +1,6 @@
 import { db } from "@/firebase";
-import { closeCommentModal } from "@/redux/modalSlice";
+import { handleCommentModal } from "@/redux/modalSlice";
+import { RootState } from "@/redux/store";
 import {
   CalendarIcon,
   ChartBarIcon,
@@ -15,10 +16,10 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 export default function CoomentModal() {
-  const isOpen = useSelector((state) => state.modals.commentModalOpen);
-  const userImg = useSelector((state) => state.user.photoUrl);
-  const tweetDetails = useSelector(state => state.modals.commentTweetDetails)
-  const user = useSelector(state => state.user)
+  const isOpen = useSelector((state: RootState) => state.modals.commentModalOpen);
+  const userImg = useSelector((state: RootState) => state.user.photoUrl);
+  const tweetDetails = useSelector((state: RootState) => state.modals.commentTweetDetails)
+  const user = useSelector((state: RootState) => state.user)
 
   const dispatch = useDispatch();
 
@@ -27,6 +28,10 @@ export default function CoomentModal() {
   const router = useRouter()
 
   async function sendComment(){
+    if (!tweetDetails.id) {
+      console.error("tweetDetails.id is null or undefined");
+      return;
+    }
     
     const docRef = doc(db, "posts", tweetDetails.id)
     const commentDetails = {
@@ -39,7 +44,7 @@ export default function CoomentModal() {
       comments: arrayUnion(commentDetails)
     })
 
-    dispatch(closeCommentModal())
+    dispatch(handleCommentModal())
     router.push("/" + tweetDetails.id)
 
   }
@@ -50,7 +55,7 @@ export default function CoomentModal() {
       <Modal
         className="flex justify-center items-center"
         open={isOpen}
-        onClose={() => dispatch(closeCommentModal())}
+        onClose={() => dispatch(handleCommentModal())}
       >
         <div
           className=" w-full h-full relative
@@ -64,7 +69,7 @@ export default function CoomentModal() {
           
           "></div>
           <div
-          onClick={() => dispatch(closeCommentModal())}
+          onClick={() => dispatch(handleCommentModal())}
           className="absolute top-4 cursor-pointer" >
             <XIcon className="w-6" />
           </div>
@@ -73,7 +78,7 @@ export default function CoomentModal() {
             <div className="flex space-x-3 w-full">
               <img
                 className="w-12 h-12 object-cover rounded-full"
-                src={tweetDetails.photoUrl}
+                src={tweetDetails.photoUrl || "/assets/pfp.png"}
               />
 
               <div>
@@ -93,7 +98,7 @@ export default function CoomentModal() {
             <div className="flex space-x-3">
               <img
                 className="w-12 h-12 object-cover rounded-full"
-                src={userImg}
+                src={userImg || "/assets/pfp.png"}
               />
 
               <div className="w-full">
