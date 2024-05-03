@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import Sidebar from "@/components/Sidebar";
 import PostFeed from "@/components/PostFeed";
 import Trending from "@/components/Trending";
+import Comment from "@/components/modals/Comment";
 import BottomBanner from "@/components/BottomBanner";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
@@ -13,12 +14,19 @@ export default function Home() {
   const username = useSelector((state: RootState) => state.user.username)
   return (
     <div>
-      <div className="bg-black max-w-[1400px] min-h-screen text-[#E7E9EA] mx-auto flex">
+      <div
+        className="bg-black min-h-screen text-[#E7E9EA] 
+    max-w-[1400px] mx-auto flex
+    "
+      >
         <Sidebar />
         <PostFeed />
         <Trending />
       </div>
-      {!username && <BottomBanner />}
+
+      <Comment />
+
+    {!username && <BottomBanner />}
     </div>
   );
 }

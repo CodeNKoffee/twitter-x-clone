@@ -1,5 +1,10 @@
 import { db } from "@/firebase";
-import { handleCommentModal, handleLoginModal, handleSignupModal, setCommentTweet } from "@/redux/modalSlice";
+import {
+  handleCommentModal,
+  handleLoginModal, setCommentTweet
+} from "@/redux/modalSlice";
+import { RootState } from "@/redux/store";
+import { User } from "@/redux/userSlice";
 import {
   ChartBarIcon,
   ChatIcon,
@@ -21,31 +26,34 @@ import { useEffect, useState } from "react";
 import Moment from "react-moment";
 import { useDispatch, useSelector } from "react-redux";
 
-export default function Tweet({ data, id }) {
+export default function Tweet({ data, id }: any) {
   const dispatch = useDispatch();
   const router = useRouter();
 
-  const user = useSelector((state) => state.user);
+  const user = useSelector((state: RootState) => state.user) as User;
 
-  const [likes, setLikes] = useState([]);
+  const [likes, setLikes] = useState<any>([]);
   const [comments, setComments] = useState([]);
 
-  async function deleteTweet(e){
-    e.stopPropagation()
-    await deleteDoc(doc(db, "posts", id))
-
-
+  async function deleteTweet(e: React.MouseEvent<HTMLInputElement>) {
+    e.stopPropagation();
+    await deleteDoc(doc(db, "posts", id));
   }
 
-  async function likeComment(e) {
-    e.stopPropagation();
-
-    if (!user.username){
-      dispatch(openLoginModal())
-      return
+  async function likeComment(e: React.MouseEvent<HTMLInputElement>) {
+    if (!user || !user.username) {
+      dispatch(handleLoginModal());
+      return;
     }
 
-    if (likes.includes(user.uid)) {
+    e.stopPropagation();
+
+    if (!user.username) {
+      dispatch(handleLoginModal());
+      return;
+    }
+
+    if (likes?.includes(user.uid)) {
       await updateDoc(doc(db, "posts", id), {
         likes: arrayRemove(user.uid),
       });
@@ -61,7 +69,7 @@ export default function Tweet({ data, id }) {
 
     const unsubscribe = onSnapshot(doc(db, "posts", id), (doc) => {
       setLikes(doc.data()?.likes);
-      setComments(doc.data()?.comments)
+      setComments(doc.data()?.comments);
     });
 
     return unsubscribe;
@@ -82,12 +90,12 @@ export default function Tweet({ data, id }) {
       />
       <div className="p-3 ml-16 text-gray-500 flex space-x-14">
         <div
-        className="flex justify-center items-center space-x-2"
+          className="flex justify-center items-center space-x-2"
           onClick={(e) => {
             e.stopPropagation();
-            if (!user.username){
-              dispatch(openLoginModal())
-              return
+            if (!user.username) {
+              dispatch(handleLoginModal());
+              return;
             }
             dispatch(
               setCommentTweet({
@@ -98,7 +106,7 @@ export default function Tweet({ data, id }) {
                 username: data?.username,
               })
             );
-            dispatch(openCommentModal());
+            dispatch(handleCommentModal());
           }}
         >
           <ChatIcon className="w-5 cursor-pointer hover:text-green-400" />
@@ -109,20 +117,21 @@ export default function Tweet({ data, id }) {
           className="flex justify-center items-center space-x-2"
           onClick={likeComment}
         >
-          {likes.includes(user.uid) ? (
+          {likes.includes(user?.uid) ? (
             <FilledHeartIcon className="w-5 text-pink-500" />
           ) : (
             <HeartIcon className="w-5 cursor-pointer hover:text-pink-500" />
           )}
           {likes.length > 0 && <span>{likes.length}</span>}
         </div>
-        {user.uid === data?.uid && (<div 
-        className="cursor-pointer hover:text-red-600"
-        onClick={deleteTweet}
-        >
-
-          <TrashIcon className="w-5" />
-        </div>)}
+        {user && user.uid === data?.uid && (
+          <div
+            className="cursor-pointer hover:text-red-600"
+            onClick={deleteTweet}
+          >
+            <TrashIcon className="w-5" />
+          </div>
+        )}
         <ChartBarIcon className="w-5 cursor-not-allowed" />
         <UploadIcon className="w-5 cursor-not-allowed" />
       </div>
@@ -130,7 +139,14 @@ export default function Tweet({ data, id }) {
   );
 }
 
-export function TweetHeader({ username, name, timestamp, text, photoUrl, image }) {
+export function TweetHeader({
+  username,
+  name,
+  timestamp,
+  text,
+  photoUrl,
+  image,
+}: any) {
   return (
     <div className="flex space-x-3 p-3 border-gray-700">
       <img className="w-11 h-11 rounded-full object-cover" src={photoUrl} />
@@ -144,9 +160,12 @@ export function TweetHeader({ username, name, timestamp, text, photoUrl, image }
 
         <span>{text}</span>
 
-        {image && <img
-        className="object-cover border border-gray-700 rounded-md mt-3 max-h-80"
-        src={image} />}
+        {image && (
+          <img
+            className="object-cover border border-gray-700 rounded-md mt-3 max-h-80"
+            src={image}
+          />
+        )}
       </div>
     </div>
   );
