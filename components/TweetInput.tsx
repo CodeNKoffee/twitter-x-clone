@@ -20,7 +20,7 @@ export default function TweetInput() {
   const [text, setText] = useState("");
   const [image, setImage] = useState<string | ArrayBuffer | null>(null);
   const [loading, setLoading] = useState(false);
-  const filePickerRef = useRef(null);
+  const filePickerRef = useRef<HTMLInputElement | null>(null);
 
   const dispatch = useDispatch();
 
@@ -62,9 +62,9 @@ export default function TweetInput() {
     setLoading(false)
   }
 
-  function addImagetoTweet(e){
+  function addImagetoTweet(e: React.ChangeEvent<HTMLInputElement>){
     const reader = new FileReader()
-    if (e.target.files[0]){
+    if (e.target.files && e.target.files[0]){
       reader.readAsDataURL(e.target.files[0])
     }
 
@@ -128,7 +128,7 @@ export default function TweetInput() {
           {/* ICNONS DIV */}
           <div className="flex space-x-0">
             <div
-            onClick={() => filePickerRef.current.click()}
+            onClick={() => filePickerRef.current ? filePickerRef.current.click() : console.log("")}
             className="iconAnimation">
               <PhotographIcon className="h-[22px] text-[#1d9bf0]" />
             </div>
