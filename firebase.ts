@@ -1,4 +1,5 @@
 // Import the functions you need from the SDKs you need
+import { API_KEY } from "@env";
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
@@ -8,7 +9,7 @@ import { getStorage } from "firebase/storage";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyDSpUxaZBmMCzyOmYSydQmCHVTH7jWDvEI",
+  apiKey: API_KEY,
   authDomain: "twitter-x-clone-c6484.firebaseapp.com",
   projectId: "twitter-x-clone-c6484",
   storageBucket: "twitter-x-clone-c6484.appspot.com",
